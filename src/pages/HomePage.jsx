@@ -59,14 +59,14 @@ export default function HomePage() {
           </div>
           <div className="row">
             {[
-              { img: '/img/asesoria_en_proyectos.svg', title: 'Asesoría Técnica', text: 'Evaluación profesional y diagnóstico patológico de estructuras para determinar la solución ideal.' },
-              { img: '/img/Contratistas_para_proyectos.svg', title: 'Ejecución de Obras', text: 'Aplicación de sistemas impermeables con personal altamente capacitado y certificado.' },
-              { img: '/img/personalizacion_de_productos.svg', title: 'Productos Guardián', text: 'Suministro de los mejores impermeabilizantes del mercado. Calidad y rendimiento asegurado.' },
-              { img: '/img/acompañamiento_posventa.svg', title: 'Soporte Posventa', text: 'Seguimiento continuo y mantenimiento preventivo para garantizar la vida útil de nuestros trabajos.' },
+              { icon: 'fa-clipboard-list', title: 'Asesoría Técnica', text: 'Evaluación profesional y diagnóstico patológico de estructuras para determinar la solución ideal.' },
+              { icon: 'fa-hard-hat', title: 'Ejecución de Obras', text: 'Aplicación de sistemas impermeables con personal altamente capacitado y certificado.' },
+              { icon: 'fa-shield-alt', title: 'Productos Guardián', text: 'Suministro de los mejores impermeabilizantes del mercado. Calidad y rendimiento asegurado.' },
+              { icon: 'fa-headset', title: 'Soporte Posventa', text: 'Seguimiento continuo y mantenimiento preventivo para garantizar la vida útil de nuestros trabajos.' },
             ].map((s, i) => (
               <div key={i} className="col-lg-3 col-md-6 mb-4">
                 <div className="service-card">
-                  <img src={s.img} alt={s.title} className="service-icon" />
+                  <div className="service-icon"><i className={`fas ${s.icon}`}></i></div>
                   <h3 className="service-title">{s.title}</h3>
                   <p className="text-muted">{s.text}</p>
                 </div>

@@ -2,16 +2,20 @@ import { useState } from 'react'
 import { Link, Outlet, useLocation } from 'react-router-dom'
 import ScrollToTop from './ScrollToTop'
 import WhatsAppFloat from './WhatsAppFloat'
+import CartIcon from './CartIcon'
+import CartDrawer from './CartDrawer'
+import products from '../data/products'
 
 const links = [
   { to: '/', label: 'Inicio' },
-  { to: '/guardian', label: 'Guardián' },
   { to: '/nosotros', label: 'Nosotros' },
   { to: '/contacto', label: 'Contacto' },
 ]
 
 export default function Layout() {
   const [isOpen, setIsOpen] = useState(false)
+  const [productsOpen, setProductsOpen] = useState(false)
+  const [cartOpen, setCartOpen] = useState(false)
   const { pathname } = useLocation()
 
   return (
@@ -35,10 +39,44 @@ export default function Layout() {
                 aria-label="Toggle navigation"
                 style={{ borderColor: '#610A0A' }}
               >
-                <span style={{ color: '#610A0A' }}><i className="fas fa-bars"></i></span>
-              </button>
+                  <span style={{ color: '#610A0A' }}><i className="fas fa-bars"></i></span>
+                </button>
+                <CartIcon onClick={() => setCartOpen(true)} />
               <div className={`collapse navbar-collapse tm-nav ${isOpen ? 'show' : ''}`} id="navbar-nav">
                 <ul className="navbar-nav text-uppercase ml-auto">
+                  <li
+                    className={`nav-item dropdown ${productsOpen ? 'show' : ''}`}
+                    onMouseEnter={() => setProductsOpen(true)}
+                    onMouseLeave={() => setProductsOpen(false)}
+                  >
+                    <span
+                      className={`nav-link tm-nav-link dropdown-toggle ${pathname === '/productos' || products.map(p => p.slug).some(s => pathname.includes(s)) ? 'active' : ''}`}
+                      onClick={() => setProductsOpen(!productsOpen)}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      Productos
+                    </span>
+                    <div className={`dropdown-menu ${productsOpen ? 'show' : ''}`}>
+                      <Link
+                        className={`dropdown-item ${pathname === '/productos' ? 'active' : ''}`}
+                        to="/productos"
+                        onClick={() => { setIsOpen(false); setProductsOpen(false) }}
+                      >
+                        <i className="fas fa-th mr-2"></i> Todos los Productos
+                      </Link>
+                      <div className="dropdown-divider"></div>
+                      {products.map((p) => (
+                        <Link
+                          key={p.slug}
+                          className={`dropdown-item ${pathname.includes(p.slug) ? 'active' : ''}`}
+                          to={`/${p.slug}`}
+                          onClick={() => { setIsOpen(false); setProductsOpen(false) }}
+                        >
+                          {p.shortName}
+                        </Link>
+                      ))}
+                    </div>
+                  </li>
                   {links.map((link) => (
                     <li key={link.to} className={`nav-item ${pathname === link.to ? 'active' : ''}`}>
                       <Link className="nav-link tm-nav-link" to={link.to} onClick={() => setIsOpen(false)}>{link.label}</Link>
@@ -83,6 +121,8 @@ export default function Layout() {
           </div>
         </div>
       </footer>
+
+      <CartDrawer isOpen={cartOpen} onClose={() => setCartOpen(false)} />
 
       <WhatsAppFloat />
 
